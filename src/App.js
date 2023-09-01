@@ -7,7 +7,7 @@ import FullPost from "./pages/FullPost";
 import AddPost from "./pages/AddPost/AddPost";
 import Login from "./pages/Login/Login";
 import Registration from "./pages/Registration/Registration";
-import Header from "./components/Header/Header";
+import Layout from "./components/Layout/Layout";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -18,15 +18,16 @@ const App = () => {
 
   return (
     <section className="bg-primary min-h-[100vh] w-[100vw] text-white">
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/posts/:id" element={<FullPost />} />
-        <Route path="/posts/:id/edit" element={<AddPost />} />
-        <Route path="/add-post" element={<AddPost />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Registration />} />
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/posts/:id" element={<FullPost />} />
+          <Route path="/posts/:id/edit" element={<AddPost />} />
+          <Route path="/add-post" element={<AddPost />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Registration />} />
+        </Routes>
+      </Layout>
     </section>
   );
 };
