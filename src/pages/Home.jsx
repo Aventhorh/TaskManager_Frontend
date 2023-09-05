@@ -9,7 +9,6 @@ const TaskFilters = ({
   filter,
   startDate,
   endDate,
-  searchTerm,
   onFilterChange,
   onStartDateChange,
   onEndDateChange,
@@ -25,9 +24,9 @@ const TaskFilters = ({
   };
 
   return (
-    <div className="bg-primary p-4 rounded-lg border border-secondary w-full">
+    <div className="bg-primary rounded-2xl w-full h-full flex flex-col gap-5 border-x-4 border-darkGray p-10">
       <h2 className="text-white text-lg font-semibold mb-2">Фильтры</h2>
-      <div className="mb-4">
+      <div className="">
         <input
           className="p-2 border border-secondary rounded-lg bg-primary"
           type="text"
@@ -35,8 +34,8 @@ const TaskFilters = ({
           onChange={handleSearchTermChange}
         />
       </div>
-      <div className="mb-4">
-        <label className="mr-4">
+      <div className=" flex flex-col gap-5">
+        <label className="">
           <input
             type="radio"
             name="statusFilter"
@@ -46,7 +45,7 @@ const TaskFilters = ({
           />
           Все
         </label>
-        <label className="mr-4">
+        <label className="">
           <input
             type="radio"
             name="statusFilter"
@@ -56,7 +55,7 @@ const TaskFilters = ({
           />
           Не начато
         </label>
-        <label className="mr-4">
+        <label className="">
           <input
             type="radio"
             name="statusFilter"
@@ -77,7 +76,7 @@ const TaskFilters = ({
           Выполнено
         </label>
       </div>
-      <div className="mb-4">
+      <div className="flex flex-col gap-5">
         <input
           className="p-2 border border-secondary rounded-lg bg-primary"
           type="date"
@@ -194,7 +193,6 @@ const Home = () => {
               filter={filter}
               startDate={startDate}
               endDate={endDate}
-              searchTerm={searchTerm}
               onFilterChange={setFilter}
               onStartDateChange={setStartDate}
               onEndDateChange={setEndDate}

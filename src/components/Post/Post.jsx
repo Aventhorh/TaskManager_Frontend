@@ -48,7 +48,7 @@ const Post = ({
   );
 
   return (
-    <div className="relative flex flex-col p-4 bg-primary rounded-lg shadow-xl hover:shadow-secondary transition duration-300 hover:scale-105  border-x-2 border-secondary">
+    <div className="relative flex flex-col p-4 bg-primary rounded-lg shadow-xl hover:shadow-secondary transition-all duration-300 hover:scale-105 border-x-2 border-secondary">
       {isUserPost && (
         <div
           className={`${
@@ -68,22 +68,34 @@ const Post = ({
       {imageUrl && (
         <img className="mb-2 rounded-lg" src={imageUrl} alt={title} />
       )}
-      <div className="">
+      <div>
         <UserInfo {...user} additionalText={formattedCreatedAt} />
         <div className="flex flex-col gap-2">
-          <h2 className="text-xl font-semibold mb-2">
+          <h2 className="text-xl font-semibold mb-2 text-secondary">
             {isFullPost ? title : <Link to={`/posts/${id}`}>{title}</Link>}
           </h2>
-          <p className="text-gray-500">Status: {status}</p>
+          <div className="flex gap-2">
+            <p className="text-whites">Статус:</p>
+            <p className="text-lightGray">{status}</p>
+          </div>
           {completedDate && (
-            <p className="text-gray-500">
-              Completed Date: {formattedCompletedDate}
-            </p>
+            <div className="flex gap-2">
+              <p className="text-whites">Завершен:</p>
+              <p className="text-lightGray">{formattedCompletedDate}</p>
+            </div>
           )}
-          <p className="text-gray-500">dueDate: {formattedDueDate}</p>
-
-          <p className="text-gray-500">Created At: {formattedCreatedAt}</p>
-          <p className="text-gray-500">Updated At: {formattedUpdatedAt}</p>
+          <div className="flex gap-2">
+            <p className="text-whites">Срок:</p>
+            <p className="text-lightGray">{formattedDueDate}</p>
+          </div>
+          <div className="flex gap-2">
+            <p className="text-whites">Создан:</p>
+            <p className="text-lightGray">{formattedCreatedAt}</p>
+          </div>
+          <div className="flex gap-2">
+            <p className="text-whites">Обновлено:</p>
+            <p className="text-lightGray">{formattedUpdatedAt}</p>
+          </div>
         </div>
       </div>
     </div>

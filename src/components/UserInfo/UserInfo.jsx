@@ -1,13 +1,10 @@
 import React from "react";
 
-export const UserInfo = ({ avatarUrl, fullName, additionalText }) => {
+export const UserInfo = ({ fullName, additionalText }) => {
   return (
-    <div className="">
-      <img className="" src={avatarUrl || "/noavatar.png"} alt={fullName} />
-      <div className="">
-        <span className="">{fullName}</span>
-        <span className="">{additionalText}</span>
-      </div>
+    <div className="flex flex-col">
+      <span className="text-lightGray">{fullName}</span>
+      <span className="text-lightGray">{additionalText}</span>
     </div>
   );
 };
