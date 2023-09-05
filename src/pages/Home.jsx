@@ -5,6 +5,104 @@ import { fetchAuthAll } from "../redux/slices/auth";
 import Post from "../components/Post/Post";
 import TextGenerator from "../components/TextGenerator/TextGenerator";
 
+const TaskFilters = ({
+  filter,
+  startDate,
+  endDate,
+  searchTerm,
+  onFilterChange,
+  onStartDateChange,
+  onEndDateChange,
+  onSearchTermChange,
+  onResetFilters,
+}) => {
+  const handleFilterChange = (event) => {
+    onFilterChange(event.target.value);
+  };
+
+  const handleSearchTermChange = (event) => {
+    onSearchTermChange(event.target.value);
+  };
+
+  return (
+    <div className="bg-primary p-4 rounded-lg border border-secondary w-full">
+      <h2 className="text-white text-lg font-semibold mb-2">Фильтры</h2>
+      <div className="mb-4">
+        <input
+          className="p-2 border border-secondary rounded-lg bg-primary"
+          type="text"
+          placeholder="Поиск по задачам"
+          onChange={handleSearchTermChange}
+        />
+      </div>
+      <div className="mb-4">
+        <label className="mr-4">
+          <input
+            type="radio"
+            name="statusFilter"
+            value="all"
+            checked={filter === "all"}
+            onChange={handleFilterChange}
+          />
+          Все
+        </label>
+        <label className="mr-4">
+          <input
+            type="radio"
+            name="statusFilter"
+            value="open"
+            checked={filter === "open"}
+            onChange={handleFilterChange}
+          />
+          Не начато
+        </label>
+        <label className="mr-4">
+          <input
+            type="radio"
+            name="statusFilter"
+            value="inProgress"
+            checked={filter === "inProgress"}
+            onChange={handleFilterChange}
+          />
+          В процессе
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="statusFilter"
+            value="done"
+            checked={filter === "done"}
+            onChange={handleFilterChange}
+          />
+          Выполнено
+        </label>
+      </div>
+      <div className="mb-4">
+        <input
+          className="p-2 border border-secondary rounded-lg bg-primary"
+          type="date"
+          placeholder="Начальная дата"
+          value={startDate}
+          onChange={(e) => onStartDateChange(e.target.value)}
+        />
+        <input
+          className="p-2 border border-secondary rounded-lg bg-primary"
+          type="date"
+          placeholder="Конечная дата"
+          value={endDate}
+          onChange={(e) => onEndDateChange(e.target.value)}
+        />
+      </div>
+      <button
+        className="bg-secondary text-white py-2 px-4 rounded-lg"
+        onClick={onResetFilters}
+      >
+        Сбросить
+      </button>
+    </div>
+  );
+};
+
 const Home = () => {
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.posts);
@@ -24,18 +122,9 @@ const Home = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
-  const handleFilterChange = (event) => {
-    setFilter(event.target.value);
+  const handleSearchTermChange = (value) => {
+    setSearchTerm(value);
   };
-
-  const handleStartDateChange = (event) => {
-    setStartDate(event.target.value);
-  };
-
-  const handleEndDateChange = (event) => {
-    setEndDate(event.target.value);
-  };
-
   const handleResetFilters = () => {
     setSearchTerm("");
     setFilter("all");
@@ -77,82 +166,11 @@ const Home = () => {
     });
 
   return (
-    <div className="flex flex-col">
+    <div className="">
       {!authData?.success && <TextGenerator />}
       {authData?.success && (
-        <div className="p-10 flex flex-col gap-10">
-          <input
-            className="p-3 border border-secondary rounded-lg bg-primary"
-            type="text"
-            placeholder="Поиск по задачам"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <div className="mb-4">
-            <label className="mr-4">
-              <input
-                type="radio"
-                name="filter"
-                value="all"
-                checked={filter === "all"}
-                onChange={handleFilterChange}
-              />
-              Все
-            </label>
-            <label className="mr-4">
-              <input
-                type="radio"
-                name="filter"
-                value="open"
-                checked={filter === "open"}
-                onChange={handleFilterChange}
-              />
-              Не начато
-            </label>
-            <label className="mr-4">
-              <input
-                type="radio"
-                name="filter"
-                value="inProgress"
-                checked={filter === "inProgress"}
-                onChange={handleFilterChange}
-              />
-              В процессе
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="filter"
-                value="done"
-                checked={filter === "done"}
-                onChange={handleFilterChange}
-              />
-              Выполнено
-            </label>
-          </div>
-          <div className="mb-4">
-            <input
-              className="p-3 border border-secondary rounded-lg bg-primary"
-              type="date"
-              placeholder="Начальная дата"
-              value={startDate}
-              onChange={handleStartDateChange}
-            />
-            <input
-              className="p-3 border border-secondary rounded-lg bg-primary"
-              type="date"
-              placeholder="Конечная дата"
-              value={endDate}
-              onChange={handleEndDateChange}
-            />
-          </div>
-          <button
-            className="bg-secondary text-white py-2 px-4 rounded-lg"
-            onClick={handleResetFilters}
-          >
-            Сбросить
-          </button>
-          <div className="grid grid-cols-5 gap-10">
+        <div className="p-10 flex gap-10 ml-auto w-full">
+          <div className="grid grid-cols-5 gap-10 w-full">
             {filteredPosts.map((post) => (
               <Post
                 key={post._id}
@@ -169,6 +187,19 @@ const Home = () => {
                 userId={post.user._id}
               />
             ))}
+          </div>
+          <div className="">
+            <TaskFilters
+              filter={filter}
+              startDate={startDate}
+              endDate={endDate}
+              searchTerm={searchTerm}
+              onFilterChange={setFilter}
+              onStartDateChange={setStartDate}
+              onEndDateChange={setEndDate}
+              onSearchTermChange={handleSearchTermChange}
+              onResetFilters={handleResetFilters}
+            />
           </div>
         </div>
       )}

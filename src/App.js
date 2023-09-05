@@ -17,7 +17,7 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <section className="bg-primary min-h-[100vh] w-[100vw] text-white">
+    <section className="bg-primary min-h-[100vh] w-[100vw] !text-whites">
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />

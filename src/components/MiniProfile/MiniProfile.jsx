@@ -20,7 +20,7 @@ const MiniProfile = ({ item }) => {
   }, [data, posts]);
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4 bg-darkGray">
       {item?.user?.fullName && (
         <>
           <h2 className="text-white font-semibold hover:text-secondary">

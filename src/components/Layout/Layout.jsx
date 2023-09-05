@@ -22,26 +22,17 @@ const Layout = ({ children }) => {
     setNavbarOpen(!navbarOpen);
   };
 
-  const headerHeight = "72px"; // Высота вашего заголовка
-
-  const navbarStyle = {
-    marginTop: headerHeight, // Устанавливаем marginTop для навбара
-  };
   const plusButtonStyle = {
     position: "absolute",
-    top: `calc(50% - 1rem)`, // Позиция по вертикали
+    top: `50%`,
     left: navbarOpen ? "240px" : "1rem",
-    zIndex: 1000, // Устанавливаем z-индекс для кнопки
-    borderRadius: "50%", // Делаем кнопку круглой
+    zIndex: 1000,
   };
 
   return (
     <div className="bg-primary min-h-[100vh] w-[100vw] text-white relative">
       {navbarOpen && (
-        <div
-          className="fixed top-0 left-0 w-64 h-full bg-primary transform transition-transform ease-in-out duration-300 z-10"
-          style={navbarStyle}
-        >
+        <div className="fixed top-0 left-0 w-64 h-full bg-primary transform transition-transform ease-in-out duration-300 z-10 border-r border-secondary">
           <div className="p-6">
             <ul className="space-y-4">
               <li>
@@ -72,8 +63,8 @@ const Layout = ({ children }) => {
           </div>
         </div>
       )}
-      <nav className="text-white p-6 flex justify-between items-center">
-        <div className="flex items-center gap-4">
+      <nav className="text-white p-6 flex justify-between items-center bg-darkGray">
+        <div className="flex items-center gap-4 bg-darkGray">
           <Link to="/" className="text-2xl font-semibold hover:text-secondary">
             Progressive Task Manager
           </Link>
@@ -114,7 +105,7 @@ const Layout = ({ children }) => {
         </div>
       </nav>
       <button
-        className={`text-2xl text-white bg-primary hover:bg-secondary transition duration-300 p-4 rounded-full transform ${
+        className={`text-2xl text-white bg-primary hover:bg-secondary transition duration-300 rounded-xl p-4 transform border-x border-secondary ${
           plusButtonStyle.left === "1rem" ? "" : "translate-y-1/2"
         }`}
         style={plusButtonStyle}
@@ -122,7 +113,7 @@ const Layout = ({ children }) => {
       >
         {navbarOpen ? "-" : "+"}
       </button>
-      <main className={`px-6 py-12 ml-64`}>{children}</main>
+      <main className={`px-6 py-12`}>{children}</main>
     </div>
   );
 };

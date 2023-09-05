@@ -35,8 +35,8 @@ const Login = () => {
     return <Navigate to="/" />;
   }
   return (
-    <div className="flex items-center justify-center h-[80vh]">
-      <div className="rounded-lg shadow-lg p-8 w-96">
+    <div className="flex items-center justify-center h-[80vh] ">
+      <div className="rounded-lg shadow-lg p-8 w-96  border-x-2 border-secondary">
         <div className="text-2xl font-bold mb-6">Вход в аккаунт</div>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
           <input
