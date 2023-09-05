@@ -11,6 +11,8 @@ const AddPost = () => {
   const [text, setText] = React.useState("");
   const [title, setTitle] = React.useState("");
   const [imageUrl, setImageUrl] = React.useState("");
+  const [status, setStatus] = React.useState("OPEN");
+  const [dueDate, setDueDate] = React.useState(""); // Добавлено поле для срока выполнения
   const inputFileRef = React.useRef(null);
 
   const isEditing = Boolean(id);
@@ -38,6 +40,8 @@ const AddPost = () => {
         title,
         imageUrl,
         text,
+        status,
+        dueDate, // Включаем срок выполнения в отправляемые данные
       };
 
       const { data } = isEditing
@@ -49,7 +53,7 @@ const AddPost = () => {
       navigate(`/posts/${_id}`);
     } catch (err) {
       console.log(err);
-      alert("Ошибка при создании статьи");
+      alert("Ошибка при создании/редактировании статьи");
     }
   };
 
@@ -59,6 +63,8 @@ const AddPost = () => {
         setTitle(data.title);
         setText(data.text);
         setImageUrl(data.imageUrl);
+        setStatus(data.status);
+        setDueDate(data.dueDate); // Установка срока выполнения при редактировании
       });
     }
   }, [id, isEditing]);
@@ -114,6 +120,29 @@ const AddPost = () => {
           onChange={(e) => setText(e.target.value)}
           placeholder="Текст"
         />
+        <div className="mt-4">
+          <label className="font-semibold">Статус:</label>
+          <select
+            className="p-3 border border-secondary rounded-lg bg-primary mt-2 w-full"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          >
+            <option value="OPEN">Не начато</option>
+            <option value="IN_PROGRESS">В процессе</option>
+            <option value="DONE">Выполнено</option>
+          </select>
+        </div>
+        {/* Поле для срока выполнения */}
+        <div className="mt-4">
+          <label className="font-semibold">Срок выполнения:</label>
+          <input
+            type="date"
+            className="p-3 border border-secondary rounded-lg bg-primary mt-2 w-full"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+          />
+        </div>
+        {/* Конец поля для срока выполнения */}
         <div className="flex justify-between mt-4">
           <button
             className="bg-secondary bg-opacity-80 hover:bg-opacity-100 text-white font-bold py-2 px-4 rounded-md"

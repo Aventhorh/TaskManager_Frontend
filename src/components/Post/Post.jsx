@@ -19,6 +19,7 @@ const Post = ({
   user,
   isFullPost,
   userId,
+  dueDate,
 }) => {
   const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth.data);
@@ -30,6 +31,12 @@ const Post = ({
   };
 
   const isUserPost = authData && authData.user && authData.user._id === userId;
+
+  const formattedCompletedDate =
+    completedDate && format(new Date(completedDate), "dd.MM.yyyy / HH:mm:ss");
+
+  const formattedDueDate =
+    dueDate && format(new Date(dueDate), "dd.MM.yyyy / HH:mm:ss");
 
   const formattedCreatedAt = format(
     new Date(createdAt),
@@ -69,8 +76,12 @@ const Post = ({
           </h2>
           <p className="text-gray-500">Status: {status}</p>
           {completedDate && (
-            <p className="text-gray-500">Completed Date: {completedDate}</p>
+            <p className="text-gray-500">
+              Completed Date: {formattedCompletedDate}
+            </p>
           )}
+          <p className="text-gray-500">dueDate: {formattedDueDate}</p>
+
           <p className="text-gray-500">Created At: {formattedCreatedAt}</p>
           <p className="text-gray-500">Updated At: {formattedUpdatedAt}</p>
         </div>

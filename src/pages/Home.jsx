@@ -185,6 +185,7 @@ const Home = () => {
                 }
                 user={post.user}
                 userId={post.user._id}
+                dueDate={post.dueDate}
               />
             ))}
           </div>
