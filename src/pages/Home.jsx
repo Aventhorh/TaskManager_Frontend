@@ -170,7 +170,7 @@ const Home = () => {
       {!authData?.success && <TextGenerator />}
       {authData?.success && (
         <div className="p-10 flex gap-10 ml-auto w-full">
-          <div className="grid grid-cols-5 gap-10 w-full">
+          <div className="grid grid-cols-5 gap-10 w-full rounded-2xl p-10 border-x-4 border-darkGray">
             {filteredPosts.map((post) => (
               <Post
                 key={post._id}

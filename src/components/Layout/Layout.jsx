@@ -25,7 +25,7 @@ const Layout = ({ children }) => {
   const plusButtonStyle = {
     position: "absolute",
     top: `50%`,
-    left: navbarOpen ? "240px" : "1rem",
+    left: navbarOpen ? "12rem" : "1rem",
     zIndex: 1000,
   };
 
@@ -105,15 +105,13 @@ const Layout = ({ children }) => {
         </div>
       </nav>
       <button
-        className={`text-2xl text-white bg-primary hover:bg-secondary transition duration-300 rounded-xl p-4 transform border-x border-secondary ${
-          plusButtonStyle.left === "1rem" ? "" : "translate-y-1/2"
-        }`}
+        className="text-2xl text-white bg-primary hover:bg-secondary transition duration-300 rounded-xl p-4 transform border-x border-secondary"
         style={plusButtonStyle}
         onClick={toggleNavbar}
       >
         {navbarOpen ? "-" : "+"}
       </button>
-      <main className={`px-6 py-12`}>{children}</main>
+      <main className={`px-12 py-12`}>{children}</main>
     </div>
   );
 };

@@ -29,7 +29,7 @@ const TextGenerator = () => {
   }, []);
 
   return (
-    <div className="py-20 pl-10 text-secondary">
+    <div className="py-20 pl-10 text-secondary rounded-lg  border-x-4 border-darkGray">
       <div className="w-[80%] min-h-[150px] overflow-hidden">
         <pre className="whitespace-pre-line text-6xl">
           {typedText}
