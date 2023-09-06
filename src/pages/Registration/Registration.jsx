@@ -36,7 +36,7 @@ const Registration = () => {
 
   return (
     <div className="flex items-center justify-center h-[80vh]">
-      <div className="rounded-lg shadow-lg p-8 w-96  border-x-2 border-secondary">
+      <div className="rounded-lg shadow-lg p-8 w-96  border-x-2 border-darkGray hover:border-secondary transition duration-300">
         <div className="text-2xl font-bold mb-6">Создание аккаунта</div>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
           <input

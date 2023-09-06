@@ -29,6 +29,19 @@ const TaskTableRow = ({
     new Date(updatedAt),
     "dd.MM.yyyy / HH:mm:ss"
   );
+
+  const startDate = new Date(createdAt).getTime();
+  const endDate = new Date(dueDate).getTime();
+  const currentDate = new Date().getTime();
+  const timeRemaining = Math.max(0, endDate - currentDate);
+  const totalTime = endDate - startDate;
+  const progressBarWidth = `${
+    ((totalTime - timeRemaining) / totalTime) * 100
+  }%`;
+
+  const progressPercentage =
+    totalTime === 0 ? 0 : ((totalTime - timeRemaining) / totalTime) * 100;
+
   return (
     <tr>
       <td className="border border-darkGray p-3">{title}</td>
@@ -38,6 +51,20 @@ const TaskTableRow = ({
       <td className="border border-darkGray p-3">{formattedUpdatedAt}</td>
       <td className="border border-darkGray p-3">{formattedDueDate}</td>
       <td className="border border-darkGray p-3">{text}</td>
+      <td className="border border-darkGray p-3">
+        <div className="flex items-center">
+          <div className="w-full bg-lightGray h-6 rounded-full">
+            <div
+              className="bg-secondary h-6 rounded-full"
+              style={{ width: progressBarWidth }}
+            >
+              <span className="text-primary pl-1">
+                {`${Math.round(progressPercentage)}%`}
+              </span>
+            </div>
+          </div>
+        </div>
+      </td>
     </tr>
   );
 };
@@ -61,7 +88,7 @@ const TaskFilters = ({
   };
 
   return (
-    <div className="bg-primary rounded-2xl w-full h-full flex flex-col gap-5 border-x-4 border-darkGray p-10">
+    <div className="bg-primary rounded-2xl w-full h-full flex flex-col gap-5 border-x-4 hover:border-secondary transition duration-300 border-darkGray p-10">
       <h2 className="text-white text-lg font-semibold mb-2">Фильтры</h2>
       <div className="">
         <input
@@ -212,7 +239,7 @@ const Home = () => {
       {!authData?.success && <TextGenerator />}
       {authData?.success && (
         <div className="flex flex-col gap-10 p-10">
-          <div className="flex justify-between border-x-4 rounded-2xl p-10 border-darkGray">
+          <div className="flex justify-between border-x-4 rounded-2xl p-10 border-darkGray w-1/6 hover:border-secondary transition duration-300">
             <button
               className={`px-4 py-2 rounded-lg ${
                 tableView ? "bg-secondary" : "bg-primary"
@@ -232,7 +259,7 @@ const Home = () => {
           </div>
           <div className="flex gap-10 ml-auto w-full">
             {tableView && (
-              <div className="grid grid-cols-5 gap-10 w-full rounded-2xl p-10 border-x-4 border-darkGray">
+              <div className="grid grid-cols-5 gap-10 w-full rounded-2xl p-10 border-x-4 border-darkGray hover:border-secondary transition duration-300">
                 {filteredPosts.map((post) => (
                   <Post
                     key={post._id}
@@ -256,7 +283,7 @@ const Home = () => {
             )}
 
             {!tableView && (
-              <div className="w-full border-x-4 rounded-2xl border-darkGray p-10">
+              <div className="w-full border-x-4 rounded-2xl border-darkGray p-10 hover:border-secondary transition duration-300">
                 <table className="w-full">
                   <thead>
                     <tr>
@@ -273,6 +300,7 @@ const Home = () => {
                       </th>
                       <th className="border border-darkGray p-3">Срок</th>
                       <th className="border border-darkGray p-3">Примечание</th>
+                      <th className="border border-darkGray p-3">Шкала</th>
                     </tr>
                   </thead>
                   <tbody>

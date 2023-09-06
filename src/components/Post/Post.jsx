@@ -48,7 +48,7 @@ const Post = ({
   );
 
   return (
-    <div className="relative flex flex-col p-4 bg-primary rounded-lg shadow-xl hover:shadow-secondary transition-all duration-300 hover:scale-105 border-x-2 border-secondary">
+    <div className="relative flex flex-col p-4 bg-primary rounded-lg shadow-xl hover:shadow-secondary transition-all duration-300 hover:scale-105 border-x-2 border-darkGray hover:border-secondary">
       {isUserPost && (
         <div
           className={`${

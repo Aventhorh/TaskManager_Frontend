@@ -105,7 +105,7 @@ const Layout = ({ children }) => {
         </div>
       </nav>
       <button
-        className="text-2xl text-white bg-primary hover:bg-secondary transition duration-300 rounded-xl p-4 transform border-x border-secondary"
+        className="text-2xl text-white bg-primary rounded-xl p-4 transform border-x border-darkGray hover:border-secondary transition duration-300"
         style={plusButtonStyle}
         onClick={toggleNavbar}
       >
