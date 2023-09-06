@@ -4,6 +4,43 @@ import { fetchPosts } from "../redux/slices/posts";
 import { fetchAuthAll } from "../redux/slices/auth";
 import Post from "../components/Post/Post";
 import TextGenerator from "../components/TextGenerator/TextGenerator";
+import { format } from "date-fns";
+
+const TaskTableRow = ({
+  title,
+  status,
+  completedDate,
+  createdAt,
+  updatedAt,
+  dueDate,
+  text,
+}) => {
+  const formattedCompletedDate =
+    completedDate && format(new Date(completedDate), "dd.MM.yyyy / HH:mm:ss");
+
+  const formattedDueDate =
+    dueDate && format(new Date(dueDate), "dd.MM.yyyy / HH:mm:ss");
+
+  const formattedCreatedAt = format(
+    new Date(createdAt),
+    "dd.MM.yyyy / HH:mm:ss"
+  );
+  const formattedUpdatedAt = format(
+    new Date(updatedAt),
+    "dd.MM.yyyy / HH:mm:ss"
+  );
+  return (
+    <tr>
+      <td className="border border-darkGray p-3">{title}</td>
+      <td className="border border-darkGray p-3">{status}</td>
+      <td className="border border-darkGray p-3">{formattedCompletedDate}</td>
+      <td className="border border-darkGray p-3">{formattedCreatedAt}</td>
+      <td className="border border-darkGray p-3">{formattedUpdatedAt}</td>
+      <td className="border border-darkGray p-3">{formattedDueDate}</td>
+      <td className="border border-darkGray p-3">{text}</td>
+    </tr>
+  );
+};
 
 const TaskFilters = ({
   filter,
@@ -120,15 +157,21 @@ const Home = () => {
   const [filter, setFilter] = useState("all");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [tableView, setTableView] = useState(false);
 
   const handleSearchTermChange = (value) => {
     setSearchTerm(value);
   };
+
   const handleResetFilters = () => {
     setSearchTerm("");
     setFilter("all");
     setStartDate("");
     setEndDate("");
+  };
+
+  const toggleView = () => {
+    setTableView(!tableView);
   };
 
   const filteredPosts = userPosts
@@ -168,37 +211,100 @@ const Home = () => {
     <div className="">
       {!authData?.success && <TextGenerator />}
       {authData?.success && (
-        <div className="p-10 flex gap-10 ml-auto w-full">
-          <div className="grid grid-cols-5 gap-10 w-full rounded-2xl p-10 border-x-4 border-darkGray">
-            {filteredPosts.map((post) => (
-              <Post
-                key={post._id}
-                id={post._id}
-                title={post.title}
-                status={post.status}
-                completedDate={post.completedDate}
-                createdAt={post.createdAt}
-                updatedAt={post.updatedAt}
-                imageUrl={
-                  post.imageUrl ? `http://localhost:4444${post.imageUrl}` : ""
-                }
-                user={post.user}
-                userId={post.user._id}
-                dueDate={post.dueDate}
-              />
-            ))}
+        <div className="flex flex-col gap-10 p-10">
+          <div className="flex justify-between border-x-4 rounded-2xl p-10 border-darkGray">
+            <button
+              className={`px-4 py-2 rounded-lg ${
+                tableView ? "bg-secondary" : "bg-primary"
+              } text-white font-semibold`}
+              onClick={toggleView}
+            >
+              Сетка
+            </button>
+            <button
+              className={`px-4 py-2 rounded-lg ${
+                tableView ? "bg-primary" : "bg-secondary"
+              } text-white font-semibold`}
+              onClick={toggleView}
+            >
+              Таблица
+            </button>
           </div>
-          <div className="">
-            <TaskFilters
-              filter={filter}
-              startDate={startDate}
-              endDate={endDate}
-              onFilterChange={setFilter}
-              onStartDateChange={setStartDate}
-              onEndDateChange={setEndDate}
-              onSearchTermChange={handleSearchTermChange}
-              onResetFilters={handleResetFilters}
-            />
+          <div className="flex gap-10 ml-auto w-full">
+            {tableView && (
+              <div className="grid grid-cols-5 gap-10 w-full rounded-2xl p-10 border-x-4 border-darkGray">
+                {filteredPosts.map((post) => (
+                  <Post
+                    key={post._id}
+                    id={post._id}
+                    title={post.title}
+                    status={post.status}
+                    completedDate={post.completedDate}
+                    createdAt={post.createdAt}
+                    updatedAt={post.updatedAt}
+                    imageUrl={
+                      post.imageUrl
+                        ? `http://localhost:4444${post.imageUrl}`
+                        : ""
+                    }
+                    user={post.user}
+                    userId={post.user._id}
+                    dueDate={post.dueDate}
+                  />
+                ))}
+              </div>
+            )}
+
+            {!tableView && (
+              <div className="w-full border-x-4 rounded-2xl border-darkGray p-10">
+                <table className="w-full">
+                  <thead>
+                    <tr>
+                      <th className="border border-darkGray p-3">Название</th>
+                      <th className="border border-darkGray p-3">Статус</th>
+                      <th className="border border-darkGray p-3">
+                        Дата завершения
+                      </th>
+                      <th className="border border-darkGray p-3">
+                        Дата создания
+                      </th>
+                      <th className="border border-darkGray p-3">
+                        Дата обновления
+                      </th>
+                      <th className="border border-darkGray p-3">Срок</th>
+                      <th className="border border-darkGray p-3">Примечание</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredPosts.map((post) => (
+                      <TaskTableRow
+                        key={post._id}
+                        title={post.title}
+                        status={post.status}
+                        completedDate={post.completedDate}
+                        createdAt={post.createdAt}
+                        updatedAt={post.updatedAt}
+                        dueDate={post.dueDate}
+                        text={post.text}
+                      />
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
+            <div>
+              <TaskFilters
+                filter={filter}
+                startDate={startDate}
+                endDate={endDate}
+                onFilterChange={setFilter}
+                onStartDateChange={setStartDate}
+                onEndDateChange={setEndDate}
+                onSearchTermChange={handleSearchTermChange}
+                onResetFilters={handleResetFilters}
+              />
+            </div>
           </div>
         </div>
       )}
